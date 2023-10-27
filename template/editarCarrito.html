@@ -1,0 +1,21 @@
+{% include 'base.html' %}
+    {% comment%}
+        Adentro de un form hay otro form con action POST para realizar el guardado (TODO En una misma vista)
+    {% endcomment%}
+
+
+
+{% block editar %}
+        {% csrf_token %}
+        <label class="form-label" for="productoEdit">Producto</label>
+        <input class="form-control" type="text" name="productoEdit" value="{{orden.0}}" disabled>
+        <form action="" method="post">
+            {% csrf_token %}
+            <label class="form-label" for="getCant">Cantidad</label>
+            <input  class="form-control" type="number" name="getCant" value="{{orden.1}}" id="">
+            <button class="btn btn-light" type="submit">Salvar cambio</button>
+        </form>
+        {{carrito}}
+
+
+{% endblock %}

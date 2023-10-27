@@ -1,48 +1,34 @@
+{% load static %}
+{% load bootstrap5 %}
+{% bootstrap_css %}
+  {% bootstrap_javascript %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static './css/base.css' %}">
+    <link rel="stylesheet" href="{% static './css/tabla.css' %}">
     <title>Document</title>
 </head>
 <body>
-    <h1>Inicio!</h1>
-
-    <form action="" method="post">
-        {% csrf_token %}
-        {{formulario}}
-        <button type="submit">Guardar</button>
-    </form>
-    <form action="" method="get">
-        <button type="submit">Revisar datos</button>
-    </form>
-
-    <table>
-        <th>producto</th>
-        <th>Cantidades</th>
-        <th>Eliminar</th>
-
-    {%for a,b in querie.items %}
-     
-
-            {% comment%}
-                Cree un form para un boton que  elimina el producto,
-                "A" es el producto que se envia por url y luego a la funcion "eliminar producto"
-            {% endcomment%}
-
-
-        <tr>
-            <td>{{a}}</td>
-            <td>{{b}}</td>
-            <td><form action="{% url 'eliminarProducto' a %}" method="post">
-                {% csrf_token %}
-                <button>Eliminar</button>
-            </form></td>
-        </tr>
-        
     
-    {%endfor%}
-    </table>
+    <div class="formularioPedidos">
+        <H2 class="mensaje">{{mensaje}}</H2>
+        <form action="{% url 'pedidoulrs' %}" method="post" class="formPedido">
+            {% csrf_token %}
+            {{formulario}}
+            <button type="submit" class="btnGuardar" >Guardar</button>
+        </form>
+
+    </div>
+    {% block tabla %}
+    {% endblock %}
+    <form action="" method="post">
+        {% block editar %}
+        {% endblock %}
+    </form>
+    
 </body>
 </html>

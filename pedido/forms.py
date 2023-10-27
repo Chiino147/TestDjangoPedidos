@@ -11,5 +11,8 @@ class Formpedido(forms.Form):
         opciones.append(tupla)
     
 
-    Cantidades = forms.IntegerField()
     Productos = forms.ChoiceField(choices=opciones)
+    Cantidades = forms.IntegerField()
+
+class FormEditPedido(forms.Form):
+    Cantidades = forms.IntegerField()

@@ -1,0 +1,43 @@
+*{
+    margin: 0px;
+    padding: 0px;
+}
+
+.formPedido{
+    
+    display: flex;
+    flex-direction: column;
+
+}
+.formularioPedidos{
+    width: 100%;
+    height: 30vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+
+    background-color: rgba(131, 201, 224, 0.729);
+}
+
+#id_Productos, #id_Cantidades, label{
+    width: 30vh;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 3px;
+    margin-bottom: 3px;
+    border-radius: 30px;
+}
+
+
+.btnGuardar{
+    width: 30vh;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 30px;
+}
+
+.mensaje{
+    color: red;
+    margin: auto;
+}
