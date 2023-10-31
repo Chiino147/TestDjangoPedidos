@@ -28,9 +28,18 @@ class Carrito():
     
     def getOrden(self,cod_art): #Retornamos el array  (osea el valor del la key)
         return self.carro[cod_art]
+    def getKeys(self):
+        keys = self.carro.keys()
+        akeys = []
+        for i in keys:
+            akeys.append(i)
+        return akeys
+        
+        
     
     def eliminarProducto(self,cod_art): 
         self.carro.pop(cod_art)
+
    
     def editarCarrito(self,cod_art,cantidad): #Editar el carrito
         self.carro[cod_art][1] = cantidad
@@ -95,6 +104,28 @@ def editarProducto(request,a): #FUNCION PARA MODIFICAR
     return render(request,"editarCarrito.html",contexto)
 
 
+def finalizarPedido(request):
+    contexto={}
+    keys = carrito.getKeys()
+    #print(keys)
+    carro = carrito.getCarrito()
+    
 
+    #Stock.objects.get(cod_art=1)
+    fk = Stock.objects.get(cod_art = 1)
+    #cod_art_id = Stock.objects.get(cod_art = 1,descripcion="Lapicera Roja",stock=17)
+    a = Stock.objects.get(cod_art=1)
+    print(a.cod_art)
+    print(Pedido.objects.last())
+    #Pedido.objects.create(cod_art=4,cod_usuario=1)
+    for a,b in carro.items():
+       print(f'Cod_art={a} producto= {b[0]} cantidad pedida = {b[1]}') #Cod_art=1 producto= Lapicera Roja cantidad pedida = 3
+      
+        
+        #variable.save
+    #querie = Pedido.objects()
+    #contexto["querie"]=carrito.getCarrito()
+   
+    return render(request,"mostrarTablaProductos.html",contexto)
 
 

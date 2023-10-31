@@ -21,6 +21,10 @@
             {{formulario}}
             <button type="submit" class="btnGuardar" >Guardar</button>
         </form>
+        <form  class="btnGuardar" action="{% url 'finalizarCarrito' %}" method="post">
+            {% csrf_token %}
+            <button type="submit">Finalizar</button>
+        </form>
 
     </div>
     {% block tabla %}
