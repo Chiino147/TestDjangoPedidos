@@ -12,12 +12,18 @@ class Stock(models.Model): #Modelo del stock
 
 class Pedido(models.Model):   #Modelo para los pedidos
     cod_pedido = models.AutoField(primary_key=True)
-    cod_detalle = models.IntegerField()
-    usuario = models.CharField(max_length=50)
-    #cod_art = models.ForeignKey(Stock, on_delete=models.CASCADE)
+    user= models.CharField(max_length=50)
     class Meta:
         managed = False
         db_table = 'pedido'
+        
+class Detalle_pedido(models.Model):
+    pedido_id = models.ForeignKey(Pedido, db_column="pedido_id", on_delete= models.CASCADE)
+    cod_art = models.IntegerField()
+    cant_pedida = models.IntegerField()
+    class Meta:
+        managed = False
+        db_table = 'detalle_pedido'
 
 class Usuario(models.Model):
     dni = models.IntegerField(primary_key=True)
@@ -28,13 +34,6 @@ class Usuario(models.Model):
         managed = False
         db_table = 'usuario'
 
-class Detalle_pedido(models.Model):
-    id_detalle_ped = models.AutoField(primary_key=True)
-    cod_art = models.IntegerField()
-    cantidad = models.IntegerField()
-    class Meta:
-        managed = False
-        db_table = 'detalle_pedido'
 
 
 

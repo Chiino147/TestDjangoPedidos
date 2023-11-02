@@ -4,12 +4,10 @@ from .forms import *
 from .models import *
 
 # Carrito linea 7
-
 # vista Base linea 35
-
 # Vista eliminarProducto linea 67
-
 # Vista editarProducto linea 72
+# Vista FinalizarPedido 110
 
 
 
@@ -28,12 +26,15 @@ class Carrito():
     
     def getOrden(self,cod_art): #Retornamos el array  (osea el valor del la key)
         return self.carro[cod_art]
+    
     def getKeys(self):
         keys = self.carro.keys()
         akeys = []
         for i in keys:
             akeys.append(i)
         return akeys
+    def limpiarCarrito(self):
+        self.carro = {}
         
         
     
@@ -104,28 +105,29 @@ def editarProducto(request,a): #FUNCION PARA MODIFICAR
     return render(request,"editarCarrito.html",contexto)
 
 
-def finalizarPedido(request):
-    contexto={}
-    keys = carrito.getKeys()
-    #print(keys)
-    carro = carrito.getCarrito()
+def finalizarPedido(request):   #Vista para enivar los datos a la base y crear el pedido
+    contexto={
+        'querie': Stock.objects.all()
+    }
     
+    carro = carrito.getCarrito() #Traemos el carrito
+    ultPedido = Pedido.objects.last().cod_pedido #Recuperamos la pk del ultimo pedido
+    ultPedido+=1 # incrementamos 1 para crear el  nuevo pedido
+    #print(f'Nuevo id de pedido= {ultPedido}')
+    
+    #Creamos el pedido
+    Pedido.objects.create(
+        cod_pedido=ultPedido,
+        user=1
+    )
+    
+    for a,b in carro.items(): #Se crea el detalle del pedido
+        Detalle_pedido.objects.create(
+            pedido_id= Pedido.objects.get(cod_pedido=ultPedido),
+            cod_art = a,
+            cant_pedida =b[1]
+        )
 
-    #Stock.objects.get(cod_art=1)
-    fk = Stock.objects.get(cod_art = 1)
-    #cod_art_id = Stock.objects.get(cod_art = 1,descripcion="Lapicera Roja",stock=17)
-    a = Stock.objects.get(cod_art=1)
-    print(a.cod_art)
-    print(Pedido.objects.last())
-    #Pedido.objects.create(cod_art=4,cod_usuario=1)
-    for a,b in carro.items():
-       print(f'Cod_art={a} producto= {b[0]} cantidad pedida = {b[1]}') #Cod_art=1 producto= Lapicera Roja cantidad pedida = 3
-      
-        
-        #variable.save
-    #querie = Pedido.objects()
-    #contexto["querie"]=carrito.getCarrito()
+    carrito.limpiarCarrito() #Dejamos el carrito limpio
    
-    return render(request,"mostrarTablaProductos.html",contexto)
-
-
+    return redirect('pedidoulrs')

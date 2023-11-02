@@ -23,18 +23,19 @@
     <tr class="tablatr">
         <td class="tablatd">{{b.0}}</td>
         <td class="tablatd">{{b.1}}</td>
-        <td class="tablatd">
-            <form action="{% url 'eliminarProducto' a %}" method="post">
-                {% csrf_token %}
-                <button class="btn btn-danger">Eliminar</button>
-            </form>
-        </td class="tablatd">
-        <td class="tablatd">
-            <form action="{% url 'editarProducto' a %}" method="GET">
-                {% csrf_token %}
-                <button class="btn btn-warning">Editar</button>
-            </form>
-        </td>
+        <td class="tablatd" id="btn">
+            <div class="formBotones" style="display:flex; padding:5px;">
+                <form class="formBotones" action="{% url 'eliminarProducto' a %}" method="post">
+                    {% csrf_token %}
+                    <button class="btn btn-danger">Eliminar</button>
+                </form>
+                <form class="formBotones" action="{% url 'editarProducto' a %}" method="GET">
+                    {% csrf_token %}
+                    <button class="btn btn-warning">Editar</button>
+                </form>
+
+            </div>
+        </td >
     </tr>
     
 
