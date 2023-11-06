@@ -8,7 +8,8 @@
 </head>
 <body>
     <H1>Ver pedidos!</H1>
-    <a href="{% url 'verStock'%}">Ver Stock</a> 
+    <H3>{{alerta}}</H3>
+    <a href="{% url 'verStock' %}">Ver Stock</a> 
     <table class="table">
         <th>Codigo</th>
         <th>Usuario</th>
@@ -20,10 +21,10 @@
         <td>{{producto.cod_art}}</td>
             <td>{{pedidos.cod_pedido}}</td>
             <td>{{pedidos.user}}</td>
-            <td><form action="{% url 'verPedido' pedidos.cod_pedido %}" method="get">
-                {% csrf_token %}
-                <button type="submit">Ver pedido</button>
-            </form></td>
+            <td>
+                <a href="{% url 'verPedido' pedidos.cod_pedido %}">Ver pedido</a>    
+            </td>
+            </form>
         {%endfor%}
     </tr>
 </table>

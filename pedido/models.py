@@ -13,14 +13,17 @@ class Stock(models.Model): #Modelo del stock
 class Pedido(models.Model):   #Modelo para los pedidos
     cod_pedido = models.AutoField(primary_key=True)
     user= models.CharField(max_length=50)
+    entregado = models.IntegerField()
     class Meta:
         managed = False
         db_table = 'pedido'
         
 class Detalle_pedido(models.Model):
+    id = models.IntegerField(primary_key=True, db_column="id")
     pedido_id = models.ForeignKey(Pedido, db_column="pedido_id", on_delete= models.CASCADE)
     cod_art = models.IntegerField()
     cant_pedida = models.IntegerField()
+    cant_entregada = models.IntegerField()
     class Meta:
         managed = False
         db_table = 'detalle_pedido'

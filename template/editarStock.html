@@ -7,14 +7,23 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>Vamos a actualizar!</h1>
-    <a href="{% url 'verStock' %}">Volver al stock</a>
-    {{alerta}}
+    <h1>A editar</h1>
     <form action="" method="post">
         {% csrf_token %}
-        {{formEditar}}
-        <button  type="submit">Actualizar</button>
-
-    </form>
+        <button type="submit">Salvar</button>
+        <table>
+            <th>Codigo</th>
+            <th>producto</th>
+            <th>cantidad</th>
+            
+        <tr >
+            {% for s in querieStock.values %}
+            <td>{{s.cod_art}}</td>
+            <td>{{s.descripcion}}</td>
+            <td><input type="number" name="{{s.cod_art}}" value="{{s.stock}}" id=""></td>
+        </tr>
+            {% endfor %}
+    </table>
+</form>
 </body>
 </html>

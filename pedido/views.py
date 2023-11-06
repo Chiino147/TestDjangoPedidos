@@ -111,6 +111,7 @@ def finalizarPedido(request):   #Vista para enivar los datos a la base y crear e
     }
     
     carro = carrito.getCarrito() #Traemos el carrito
+
     ultPedido = Pedido.objects.last().cod_pedido #Recuperamos la pk del ultimo pedido
     ultPedido+=1 # incrementamos 1 para crear el  nuevo pedido
     #print(f'Nuevo id de pedido= {ultPedido}')

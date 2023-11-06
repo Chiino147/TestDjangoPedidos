@@ -7,13 +7,25 @@
     <title>Document</title>
 </head>
 <body>
-    <h3>A</h3>
+    <h3>Pedido {{codigo}}</h3>
     <form action="" method="post">
+        {% csrf_token %}
         <table>
-            <th>Articulo</th>
-
-
-
+            <th>Producto</th>
+            <th>Cantidad pedida</th>
+            <th>Cantidad Entregada</th>
+            <th>Entregar</th>
+            {% for a,b in queriePedido.items %}
+            <tr>
+                <td>{{b.0}}</td>
+                <td>{{b.1}}</td>
+                <td>{{b.2}}</td>
+                <td>
+                    <input type="number" name="{{a}}" id="">
+                </td>
+            </tr>
+            
+            {% endfor %}
 
         </table>
     
