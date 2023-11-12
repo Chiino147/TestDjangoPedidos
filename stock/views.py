@@ -1,3 +1,4 @@
+from datetime import datetime
 from http.client import HTTPResponse
 from django.shortcuts import render, redirect
 from .models import *
@@ -6,8 +7,9 @@ from .forms import *
 
 
 def logistica(request):
+    
     contexto = {
-        "querieStock": Stock.objects.all() #Traemos el stock
+        "querieStock": Stock.objects.all().order_by("stock") #Traemos el stock
     }
     return render(request,'mostrarStock.html', contexto)
 
@@ -16,7 +18,7 @@ def logistica(request):
 def actualizarStock(request):
     nueva_cantidad = 0
     contexto={
-        "querieStock": Stock.objects.all(),
+        "querieStock": Stock.objects.all().order_by("stock"),
     }
     if request.method == "POST":
         nueva_cantidad = 0 #Para resetear la nueva cantidad
@@ -35,38 +37,60 @@ def actualizarStock(request):
 
 def mostrarPedidos(request):
     contexto = {
-        "queriePedidos":Pedido.objects.all()
+        "queriePedidos":Pedidos.objects.all()
     }
     if request.method == "POST":
         return render(request, 'mostrarPedido.html', contexto)
     return render(request, 'mostrarPedidos.html', contexto)
 
-def verPedido(request, cod):
-    
-    contexto= {
-        "queriePedidos":Pedido.objects.all(),
-        "codigo":cod,
-    }
-    
-    array = ()
-    pedido = {}
-    for p in Detalle_pedido.objects.filter(pedido_id=cod): #Cree una copia del carrito para obtener los productos
-        #print(f"el coddigo es {p.cod_art} el  producto es {p.cod_art.descripcion} y se pidio {p.cant_pedida}")
-        array =(p.cod_art.descripcion,p.cant_pedida,p.cant_entregada)
-        pedido[p.cod_art.cod_art]=array
-    contexto["queriePedido"]=pedido
-    
-    if request.method == "POST": #Cuando se carga el post
-        for p in pedido:
-           dp = Detalle_pedido.objects.get(pedido_id=cod,cod_art= p)
-           dp.cant_entregada = request.POST[str(p)]
-           dp.save()
-           entregar = Pedido.objects.get(cod_pedido=cod)
-           entregar.entregado = 1
-           entregar.save()
-        contexto["alerta"]="SE CARGO LA CANTIDAD ENTREGADA"
 
+def verPedido(request, cod):
+    contexto= {
+        "queriePedidos":Pedidos.objects.all(),
+        "codigo":cod,
+        "queriePedido_detalle":Detalle_Pedidos.objects.filter(nro_pedido=cod),
+    }
+    array = () 
+    pedido = {}
+    if request.method == "POST":
+        actualizarDetalle(request,cod,contexto)
+        
+        contexto["queriePedidos"]=Pedidos.objects.all()
+        contexto["alerta"]= (f"Se cargo la cantidad entregada al  pedido {cod}")
         return render(request, 'mostrarPedidos.html', contexto)
 
-
+            
     return render(request, 'mostrarPedido.html', contexto)
+
+
+def actualizarDetalle(request,cod,contexto):
+    for a in Detalle_Pedidos.objects.filter(nro_pedido=cod): #Filtro por pedido
+            #Filtro por pedido + cod_art                                        Realizo el update
+            new_cant = int(request.POST[a.cod_art.descripcion])
+            resultado = 0
+            resultado = a.cod_art.stock - new_cant
+            if((resultado >= 0) & (not Remito.objects.get(nro_pedido = cod))):
+                #print(f"Hay stock ya que hay {a.cod_art.stock} y quedaria {resultado}")
+                Stock.objects.filter(cod_art = a.cod_art.cod_art, descripcion = a.cod_art.descripcion).update(stock=resultado)
+                Detalle_Pedidos.objects.filter(nro_pedido=cod,cod_art=a.cod_art.cod_art).update(cant_entregada=request.POST[a.cod_art.descripcion])
+            else:
+                #print(f"No hay suficiente stock el resultado seria {resultado}")
+                contexto["alerta"]=(f'No hay suficiente stock para el producto {a.cod_art.descripcion}')
+            crearRemito(cod)
+            return None 
+
+def crearRemito(pedido):
+    if not Remito.objects.filter(nro_pedido=pedido):
+        Remito.objects.create(
+            fecha= datetime.now(),
+            c_total = Detalle_Pedidos.objects.filter(nro_pedido=pedido).count(),
+            nro_pedido =  Pedidos.objects.get(nro_pedido=pedido),
+            fecha_pedido = Pedidos.objects.get(nro_pedido=pedido).fecha
+        )
+    else:
+        print("Ya hay un remito creado")
+    
+    
+def buscadorPedidos(request):
+    print("hHOLA")
+    return render(request,'verPedido.html',{})

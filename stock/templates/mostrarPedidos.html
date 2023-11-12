@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    table {
+        font-family: Arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    th, td {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }
+</style>
+<body>
+    <H1>Ver pedidos!</H1>
+    <H3>{{alerta}}</H3>
+    <button><a href="{% url 'verStock' %}">Ver Stock</a></button>
+<table>
+    <thead>
+        <tr>
+            <th>N° pedido</th>
+            <th>Fecha</th>
+            <th>Usuario</th>
+            <th>ver mas</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for pedidos in queriePedidos.values %}
+        <tr>
+            <td>{{pedidos.nro_pedido}}</td>
+            <td>{{pedidos.fecha|date:"d-m-y"}}</td>
+            <td>{{pedidos.solicitante}}</td>
+            <td>
+                <button><a href="{% url 'verPedido' pedidos.nro_pedido %}">Ver pedido</a></button>
+            </td>
+        {%endfor%}
+        </tr>
+    </tbody>
+</table>
+</body>
+</html>

@@ -1,3 +1,4 @@
+from datetime import datetime
 from http.client import HTTPResponse
 from django.shortcuts import render , redirect
 from .forms import *
@@ -112,23 +113,40 @@ def finalizarPedido(request):   #Vista para enivar los datos a la base y crear e
     
     carro = carrito.getCarrito() #Traemos el carrito
 
-    ultPedido = Pedido.objects.last().cod_pedido #Recuperamos la pk del ultimo pedido
+    ultPedido = Pedidos.objects.last().nro_pedido #Recuperamos la pk del ultimo pedido
     ultPedido+=1 # incrementamos 1 para crear el  nuevo pedido
     #print(f'Nuevo id de pedido= {ultPedido}')
     
     #Creamos el pedido
-    Pedido.objects.create(
-        cod_pedido=ultPedido,
-        user=1
+    Pedidos.objects.create(
+        nro_pedido=ultPedido,
+        fecha = datetime.now(),
+        solicitante=1,
+        entregado=0,
     )
     
     for a,b in carro.items(): #Se crea el detalle del pedido
-        Detalle_pedido.objects.create(
-            pedido_id= Pedido.objects.get(cod_pedido=ultPedido),
-            cod_art = a,
+        Detalle_Pedidos.objects.create(
+            nro_pedido = Pedidos.objects.get(nro_pedido=ultPedido),
+            cod_art = Stock.objects.get(cod_art=a),
             cant_pedida =b[1]
         )
 
     carrito.limpiarCarrito() #Dejamos el carrito limpio
    
     return redirect('pedidoulrs')
+
+def buscadorPedidos(request,):
+    contexto={}
+    detalle = []
+    for i in Detalle_Pedidos.objects.filter(nro_pedido = request.GET[str("buscadorPedidos")]).values_list():
+        detalle.append((Stock.objects.get(cod_art=i[1]).descripcion,i[2],i[3]))
+        contexto['queriePedido']=detalle
+    if request.method == "POST":
+        pedido = Pedidos.objects.get(nro_pedido = request.GET[str("buscadorPedidos")])
+        pedido.entregado = 1
+        pedido.save()
+        remito = Remito.objects.get(nro_pedido = request.GET[str("buscadorPedidos")])
+        remito.fm_sol = request.POST[str("firma")]
+        remito.save()
+    return render(request,'verPedido.html',contexto)

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    table {
+        font-family: Arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    th, td {
+        border: 1px solid #000000;
+        text-align: left;
+        padding: 8px;
+    }
+
+    th {
+        background-color: #4ebc76;
+    }
+</style>
+<body>
+    <h1>Pedido {{codigo}}</h1>
+    <h3>{{alerta}}</h3>
+    <form action="" method="post">
+        {% csrf_token %}
+        <button><a href="{% url 'mostrarPedidos'%}">Volver</a></button>
+        <button type="submit">Finalizar pedido</button>
+        <table>
+            <thead>
+                <th>Producto</th>
+                <th>Cantidad pedida</th>
+                <th>Stock</th>
+                <th>Cantidad Entregada</th>
+            </thead>
+            <tbody>
+                <tr>
+                    {% for a in queriePedido_detalle %}
+                        <td>{{a.cod_art.descripcion}}</td>
+                        <td>{{a.cant_pedida}}</td>
+                        <td>{{a.cod_art.stock}}</td>
+                        <td><input type="number" value="0" name="{{a.cod_art.descripcion}}"></td>
+                        <td hidden><input type="number" name="{{a.cod_art.cod_art}}"id=""></td>
+                <tr>
+                    {% endfor %}
+
+            </tbody>
+            
+        </table>
+    
+
+
+    </form>
+</body>
+</html>

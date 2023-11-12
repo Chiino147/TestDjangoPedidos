@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    table {
+        font-family: Arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;    
+    }
+
+    th, td {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+
+    th {
+        background-color: #72ed91;
+    }
+</style>
+<body>
+    <h2>Ver Stock</h2>
+    <h3>
+        {{alerta}}
+
+    </h3>
+    <a href="{% url 'actualizarStock'%}">Actualiar stock</a> 
+    <a href="{% url 'mostrarPedidos'%}">Ver pedidos</a> 
+    </form>
+    <table class="table">
+        <thead>
+            <th>Codigo</th>
+            <th>Producto</th>
+            <th>Stock</th>
+            <th>Stock Minimo</th>
+        </thead>
+        <tbody>
+            {% for producto in querieStock.values %}
+            {% if producto.stock < producto.stock_min %}
+            <tr style="background-color: rgba(187, 27, 27, 0.52);"> 
+                <td>{{producto.cod_art}}</td>
+                <td>{{producto.descripcion}}</td>
+                <td >{{producto.stock}}</td>
+                <td >{{producto.stock_min}}</td>
+            {% else%}
+            <tr>
+                <td>{{producto.cod_art}}</td>
+                <td>{{producto.descripcion}}</td>
+                <td >{{producto.stock}}</td>
+                <td >{{producto.stock_min}}</td>
+                   
+            {% endif %}
+            {%endfor%}
+
+        </tbody>
+                                
+                
+        </tr>
+    </table>
+</body>
+</html>
