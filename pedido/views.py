@@ -74,6 +74,11 @@ def base(request):
 
     return render(request,"base.html",contexto)
 
+def tablaProducto(request):
+    contexto = {}
+    contexto["formulario"] = Formpedido() #LLamamos al form para hacer los pedidos
+    contexto["productos"] = Stock.objects.all() #Traemos todos los productos del modelo Stock
+    return render(request,"mostrarTablaProductos.html",contexto)
 
 def eliminarProducto(request, a): #Funcion que se encarga de borrar el producto
     formularioPedido = Formpedido()
@@ -84,7 +89,7 @@ def eliminarProducto(request, a): #Funcion que se encarga de borrar el producto
     carrito.eliminarProducto(a) #Aca llamamos a la funcion para eliminar
     #print(carrito.getCarrito())
     contexto["querie"]=carrito.getCarrito()  #Le enviamos todo nuestro carro al HTML para que lo cargue en una tabla
-    return render(request,"mostrarTablaProductos.html",contexto)
+    return redirect("tablaProductos")
 
 
 def editarProducto(request,a): #FUNCION PARA MODIFICAR

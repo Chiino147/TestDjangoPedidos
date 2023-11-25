@@ -3,7 +3,7 @@ from .models import *
 
 
 class Formpedido(forms.Form):
-    productos = Stock.objects.all()
+    productos = Stock.objects.all().order_by('descripcion')
     opciones = []
     tupla = ()
     for i in productos.values():

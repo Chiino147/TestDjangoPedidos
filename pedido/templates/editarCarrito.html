@@ -7,14 +7,17 @@
 
 {% block editar %}
         {% csrf_token %}
-        <label class="form-label" for="productoEdit">Producto</label>
-        <input class="form-control" type="text" name="productoEdit" value="{{orden.0}}" disabled>
-        <form action="" method="post">
-            {% csrf_token %}
-            <label class="form-label" for="getCant">Cantidad</label>
-            <input  class="form-control" type="number" name="getCant" value="{{orden.1}}" id="">
-            <button class="btn btn-light" type="submit">Salvar cambio</button>
-        </form>
+        <div class="divEditar">
+            <form class="formEditar" action="" method="post">
+                <label class="form-label" for="productoEdit">Producto</label>
+                <input class="form-control" type="text" name="productoEdit" value="{{orden.0}}" disabled>
+                {% csrf_token %}
+                <label class="form-label" for="getCant">Cantidad</label>
+                <input  class="form-control" type="number" name="getCant" value="{{orden.1}}" id="">
+                <button class="btnEditar" type="submit">Editar</button>
+            </form>
+
+        </div>
         {{carrito}}
 
 

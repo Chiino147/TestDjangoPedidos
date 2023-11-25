@@ -1,0 +1,49 @@
+{% include 'base.html' %}
+
+
+{% block Tabla %}
+<div class="bloqueTabla">
+
+    <table class="table">
+    <thead>
+        <th class="tablath">producto</th>
+        <th class="tablath">Cantidades</th>
+        <th class="tablath">Botones</th>
+    </thead>
+    
+        {% comment %}
+                Cree un form para un boton que  elimina el producto,
+                "A Contiene el ID del producto"
+                "B" Seria el producto con su cantidad en array ["producto",cantidad]
+        {% endcomment %}
+    
+    
+    
+        {%for a,b in querie.items %}
+     <tbody>
+    
+         <tr class="tablatr">
+             <td class="tablatd">{{b.0}}</td>
+             <td class="tablatd">{{b.1}}</td>
+             <td class="tablatd" id="btn">
+                 <div class="formBotones" style="display:flex; padding:5px;">
+                    <form class="formBotones" action="{% url 'eliminarProducto' a %}" method="post">
+                        {% csrf_token %}
+                        <button class="btnEliminar">Eliminar</button>
+                    </form>
+                    <form class="formBotones" action="{% url 'editarProducto' a %}" method="GET">
+                        {% csrf_token %}
+                        <button class="btnEditar">Editar</button>
+                    </form>
+                    
+                </div>
+            </td >
+        </tr>
+        
+        
+        {%endfor%}
+    </tbody>
+    </table>
+    
+    {% endblock %}
+</div>

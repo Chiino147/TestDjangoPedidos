@@ -1,44 +1,62 @@
 {% load static %}
-{% load bootstrap5 %}
-{% bootstrap_css %}
-  {% bootstrap_javascript %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static './css/base.css' %}">
     <link rel="stylesheet" href="{% static './css/tabla.css' %}">
+    <link rel="stylesheet" href="{% static './css/header.css' %}">
+    <link rel="stylesheet" href="{% static './css/footer.css' %}">
     <title>Document</title>
 </head>
 <body>
-    <div>
-        <form action="{% url 'buscadorPedidos'%}" method="get">
-            <label for="buscadorPedidos">Busca tu pedido!</label>
-            <input type="number" name="buscadorPedidos" id="">
-            <button type="submit">buscar!</button>
-        </form>
-    </div>
-    <div class="formularioPedidos">
-        <H2 class="mensaje">{{mensaje}}</H2>
-        <form action="{% url 'pedidoulrs' %}" method="post" class="formPedido">
-            {% csrf_token %}
-            {{formulario}}
-            <button type="submit" class="btnGuardar" >Guardar</button>
-        </form>
-        <form  class="btnGuardar" action="{% url 'finalizarCarrito' %}" method="post">
-            {% csrf_token %}
-            <button type="submit">Finalizar</button>
-        </form>
-
-    </div>
-    {% block tabla %}
-    {% endblock %}
-    <form action="" method="post">
-        {% block editar %}
-        {% endblock %}
-    </form>
+    <header>
+        <img class="logo-agip" src="{% static './img/logo-agip.svg'%}" alt="">
     
+    </header>
+    <main>
+        <H2 class="mensaje">{{mensaje}}</H2>
+        <div class="topForm">
+            <div class="DivBuscador">
+                <form action="{% url 'buscadorPedidos'%}" method="get">
+                        <h3>Buscar tu pedido</h3>
+                        <input type="number" name="buscadorPedidos" id="">
+                        <button  class="btnGuardar" type="submit">buscar!</button>
+                    </form>
+                </div>
+                <div class="divForm">
+                    <form action="{% url 'pedidoulrs' %}" method="post" class="formPedido">
+                        <h3>Hace tu pedido</h3>
+                        {% csrf_token %}
+                        {{formulario}}
+                        <button type="submit" class="btnGuardar" >Guardar</button>
+                    </form>
+                    <form  action="{% url 'finalizarCarrito' %}" method="post" class="formPedido">
+                        {% csrf_token %}
+                        <button id="btnFinalizar"type="submit">Finalizar</button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="bloqueTabla">
+                {% block tabla %}
+                {% endblock %}
+        
+            </div>
+            <div class="bloqueEditar">
+                <form action="" method="post">
+                    {% block editar %}
+                    {% endblock %}
+                </form>
+            </div>  
+    </main>
+        <footer>
+            <h4>Creado por Martin Fernandez</h4>
+        </footer>
+            
 </body>
+
+
 </html>

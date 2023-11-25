@@ -1,25 +1,57 @@
-.tablaCarrito{
-    background-color: rgb(199, 199, 199);
-    width: 100vh;
-    height: auto    ;
-    margin: auto;
-    table-layout: auto;
-    border: black 1px solid;
-    border-radius: 10px;
+*{
+    margin: 0px;
+    padding: 0px;
+}
+
+table {
+    margin-top: 20px;
+    width:100%;
+    background-color: rgb(255, 255, 255);
+    font-family: Arial, sans-serif;
+    border-collapse: collapse;
     text-align: center;
-    display: flex;
-    flex-direction: row;
+}
+.bloqueTabla{
+    border-left: #4ebc76 1px solid;
+    border-top: #4ebc76 1px solid;
+    border-right: #4b2cba 1px solid;
+    border-bottom: #4b2cba 1px solid;
+    max-height: 44vh;
+    overflow-y: auto;
+    
+}
+th, td {
+    border: 1px solid rgba(0, 0, 0, 0.538);
+    text-align: center;
+    padding: 1px;
 }
 
-.tablath .tablatd{
-    border: 1px solid #000; /* Añade bordes a las celdas */
-    padding: 8px; /* Añade espacio interno para que el contenido no esté pegado a los bordes */
-    text-align: center; /* Centra el texto en las celdas */
-    display: flex;
-    flex-direction: row;
+th {
+    background-color: #4ebc76;
+    text-align: center;
 }
 
-.tablath{
-    background-color: #5cc6fb; /* Agrega un fondo de color a las celdas de encabezado */
-    font-weight: bold;
-    }
+.btnEditar{
+    background-color: rgb(242, 184, 49);
+    width: 60px;
+    height: 30px;
+    border: rgb(8, 8, 8) 1px solid;
+    border-radius: 10px;
+    font-weight:bold ;
+}
+.btnEliminar{
+    background-color: #aa4d4d;
+    color: white;
+    width: 90px;
+    height: 30px;
+    border: rgb(8, 8, 8) 1px solid;
+    border-radius: 10px;
+    font-weight:bold ;
+
+}
+
+.formBotones{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

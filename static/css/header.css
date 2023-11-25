@@ -1,0 +1,32 @@
+.logo-agip{
+    height: 100%;
+    width: 30vh;
+}
+header{
+    display: flex;
+    background-color: #fff;
+    width: 100%;
+    border-bottom: #2d38b6 1px solid;
+
+}
+
+.headerUl{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin-left:20px;
+    text-align: center;
+}
+.headerLi{
+    margin: 5px;
+    list-style: none;
+
+}
+
+.headerLi a{
+    text-align: center;
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+
+}
